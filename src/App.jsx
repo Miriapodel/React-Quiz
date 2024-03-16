@@ -17,7 +17,7 @@ function App() {
         element = <StartScreen onStartClick={handleOnStart}/>
     else
         if(appState === "quizRunning")
-            element = <Quiz />
+            element = <Quiz setAppState={setAppState}/>
 
     return(
         <>

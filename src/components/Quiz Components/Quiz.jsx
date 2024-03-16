@@ -18,20 +18,30 @@ function getRandomQuestions(){
 
 }
 
-function Quiz(){
+const randomQuestions = getRandomQuestions();
+
+function Quiz({setAppState}){
 
     const [questionIndex, setQuestionIndex] = React.useState(0);
     const [timerFinished, setTimerFinished] = React.useState(false);
-    const randomQuestions = getRandomQuestions();
 
-    // un useEffect pentru atunci cand se ghiceste o intrebare
-    // sau cand expira timpul
-    // sa fie aici o variabila de genul timeExpired
+    React.useEffect(()=>{
+        
+        if(questionIndex < 2 && timerFinished === true){
+            setTimerFinished(false);
+            setQuestionIndex(previousIndex => previousIndex + 1);
+        }
+        else if(questionIndex >= 2 && timerFinished === true){
+            setAppState("showResult");
+}
+
+    }, [timerFinished])
+
 
     return(
         <div id="quiz">
 
-        <QuizQuestion currentQuestion={randomQuestions[questionIndex]} />
+        <QuizQuestion currentQuestion={randomQuestions[questionIndex]} setTimerFinished={setTimerFinished}/>
 
         </div>
     );
