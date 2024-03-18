@@ -2,43 +2,63 @@ import React from "react";
 
 const TIMER = 5000;
 
-function createButtonsFromsAnswer(answer, index){
-    return <button key={index}>{answer}</button>
-}
 
 function QuizQuestion({setTimerFinished, currentQuestion}){
   const [timeRemaining, setTimeRemaining] = React.useState(TIMER);
+  const [choseAnswer, setChoseAnswer] = React.useState(false);
 
   React.useEffect( () => {                                             // intervalul pentru update-ul progresului
-    const interval = setInterval(() => {
+    let interval;
+    let timeOut;
+    
+    if(currentQuestion){
+      interval = setInterval(() => {
       setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 50);
     }, 50);
 
-    return () => {
-        clearInterval(interval);
-    }
-  }, [currentQuestion]);
-
-  React.useEffect( () => {                                              // dupa ce trec TIMER secunde intrebarea expira
-    const timeOut = setTimeout( () => {                                 // se anunta ca timer-ul a expirat 
-        setTimerFinished(true)
+     timeOut = setTimeout( () => {                                 // se anunta ca timer-ul a expirat 
+      setTimerFinished(true)
     }, TIMER);
 
-    setTimeRemaining(TIMER);                                            // resetez timer-ul la TIMER secunde
-    console.log(currentQuestion);
+      setTimeRemaining(TIMER); 
+      setChoseAnswer(false);
+                                                                                  // cod pentru a reseta stilul butoanelor pentru fiecare intrebare
+      Array.from(document.getElementsByTagName("button")).forEach(element => {   // daca a raspuns inainte corect, sa nu ramana stilizarea si la urm intrebare
+        element.classList.remove("wrong", "correct");
+      });
+    }
 
     return () => {
+        clearInterval(interval);
         clearTimeout(timeOut);
     }
   }, [currentQuestion]);
 
+  function handleButtonOnClick(event, index){
+
+    if(!choseAnswer){
+      if(index === currentQuestion.winnerIndex)
+        event.target.className += " correct";
+      else
+        event.target.className += " wrong";
+
+      setChoseAnswer(true);
+    }
+  }
+  
+  
+  function createButtonsFromsAnswer(answer, index){
+  
+        return <button key={index} onClick={(event) => handleButtonOnClick(event, index)}>{answer}</button>
+  }
+
   return (
     <div id="question">
       <progress value={timeRemaining} max={TIMER} />
-      <h2>{currentQuestion.text}</h2>
+      <h2>{currentQuestion ? currentQuestion.text : null}</h2>
 
       <div className="answer">
-        {currentQuestion.answers.map(createButtonsFromsAnswer)}
+        {currentQuestion ? currentQuestion.answers.map((answer, index) => createButtonsFromsAnswer(answer, index, currentQuestion.winnerIndex)) : null}
       </div>
       
     </div>
