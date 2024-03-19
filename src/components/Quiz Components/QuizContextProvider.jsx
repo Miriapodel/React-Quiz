@@ -6,6 +6,12 @@ const QuizContext = React.createContext({
 
 function QuizContextProvider(){
     
+
+    return(
+        <QuizContext.Provider>
+
+        </QuizContext.Provider>
+    );
 }
 
 export default QuizContextProvider;
