@@ -1,7 +1,7 @@
 import React from "react";
 import { QuizContext } from "./QuizContextProvider";
 
-const TIMER = 10000;
+const TIMER = 5000;
 
 
 function QuizQuestion(){
@@ -38,6 +38,8 @@ function QuizQuestion(){
   }, [context.currentQuestion]);
 
   function handleButtonOnClick(event, index){
+
+    context.dispatchAnswers({type:"append", payload:index});
 
     if(!choseAnswer){
       if(index === context.currentQuestion.winnerIndex)

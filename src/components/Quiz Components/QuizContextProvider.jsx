@@ -37,26 +37,26 @@ function getWinnerIndex(answer, winner){
 export const QuizContext = React.createContext({
     currentQuestions: {},
     setTimerFinished: () => {},
+    dispatchAnswers : () => {}
 });
 
-// function handleCurrentQuestionsDispatch(state, action){
-//     if(action.type === "setCurrentQuestions")
-//         return action.payload;
 
-//     if(action.type === "setChosenAnswer"){
-//         const questionIndex = action.payload[0];
-//         const givenAnswerIndex = action.payload[1];
+function handleAnswersDispatch(state, action){
+    if(action.type === "append")
+        return [...state, action.payload];
+    
+    if(action.type === "reset") 
+        return [];
+}
 
-//         return [...state, state[questionIndex].chosenAnswerIndex = givenAnswerIndex];
-//     }
-        
-// }
 
 function QuizContextProvider({appState, setAppState}){
     const [questionIndex, setQuestionIndex] = React.useState(0);
     const [timerFinished, setTimerFinished] = React.useState(false);
     const [currentQuestions, setCurrentQuestions] = React.useState(0);
-    // const [currentQuestions, dispatchCurrentQuestions] = React.useReducer(handleCurrentQuestionsDispatch, 0);
+    const [answers, dispatchAnswers] = React.useReducer(handleAnswersDispatch, []);
+    
+    console.log(answers);
 
     React.useEffect(()=>{ // efect care se declanseaza daca timerFinished se schimba
                           // anunta practic ca o intrebare s-a terminat si vedem ce se intampla mai departe
@@ -88,7 +88,6 @@ function QuizContextProvider({appState, setAppState}){
                     chosenAnswerIndex : - 1
                 }
             }
-            console.log(randomQuestions);
             setCurrentQuestions(randomQuestions);
         }
 
@@ -97,6 +96,7 @@ function QuizContextProvider({appState, setAppState}){
     const propForContext = {
         currentQuestion : currentQuestions[questionIndex],
         setTimerFinished: setTimerFinished,
+        dispatchAnswers : dispatchAnswers
     }
 
     return(
