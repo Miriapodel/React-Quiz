@@ -1,23 +1,26 @@
 import React from "react";
+import { QuizContext } from "./QuizContextProvider";
 
-const TIMER = 5000;
+const TIMER = 10000;
 
 
-function QuizQuestion({setTimerFinished, currentQuestion}){
+function QuizQuestion(){
   const [timeRemaining, setTimeRemaining] = React.useState(TIMER);
   const [choseAnswer, setChoseAnswer] = React.useState(false);
 
-  React.useEffect( () => {                                             // intervalul pentru update-ul progresului
+  const context = React.useContext(QuizContext);
+
+  React.useEffect( () => {           // intervalul pentru update-ul progresului
     let interval;
     let timeOut;
     
-    if(currentQuestion){
+    if(context.currentQuestion){
       interval = setInterval(() => {
       setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 50);
     }, 50);
 
-     timeOut = setTimeout( () => {                                 // se anunta ca timer-ul a expirat 
-      setTimerFinished(true)
+     timeOut = setTimeout( () => {     // se anunta ca timer-ul a expirat 
+      context.setTimerFinished(true);
     }, TIMER);
 
       setTimeRemaining(TIMER); 
@@ -32,12 +35,12 @@ function QuizQuestion({setTimerFinished, currentQuestion}){
         clearInterval(interval);
         clearTimeout(timeOut);
     }
-  }, [currentQuestion]);
+  }, [context.currentQuestion]);
 
   function handleButtonOnClick(event, index){
 
     if(!choseAnswer){
-      if(index === currentQuestion.winnerIndex)
+      if(index === context.currentQuestion.winnerIndex)
         event.target.className += " correct";
       else
         event.target.className += " wrong";
@@ -55,10 +58,10 @@ function QuizQuestion({setTimerFinished, currentQuestion}){
   return (
     <div id="question">
       <progress value={timeRemaining} max={TIMER} />
-      <h2>{currentQuestion ? currentQuestion.text : null}</h2>
+      <h2>{context.currentQuestion ? context.currentQuestion.text : null}</h2>
 
       <div className="answer">
-        {currentQuestion ? currentQuestion.answers.map((answer, index) => createButtonsFromsAnswer(answer, index, currentQuestion.winnerIndex)) : null}
+        {context.currentQuestion ? context.currentQuestion.answers.map((answer, index) => createButtonsFromsAnswer(answer, index, context.currentQuestion.winnerIndex)) : null}
       </div>
       
     </div>

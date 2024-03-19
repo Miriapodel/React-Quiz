@@ -2,6 +2,7 @@ import React from "react";
 import StartScreen from "./components/StartScreen";
 import Header from "./components/Header";
 import Quiz from "./components/Quiz Components/Quiz";
+import QuizContextProvider from "./components/Quiz Components/QuizContextProvider";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         element = <StartScreen onStartClick={handleOnStart}/>
     else
         if(appState === "quizRunning")
-            element = <Quiz appState={appState} setAppState={setAppState}/>
+            element = <QuizContextProvider appState={appState} setAppState={setAppState}/>
 
     return(
         <>
