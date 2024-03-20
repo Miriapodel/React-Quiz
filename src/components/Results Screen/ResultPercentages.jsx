@@ -2,12 +2,12 @@ import React from "react";
 
 function ResultProcents({valProc, text}){
     return(
-        <span>
+        <div >
             <span className="number">
-                {valProc}
+                {valProc}%
             </span>
             <p>{text}</p>
-        </span>
+        </div>
     );
 }
 
