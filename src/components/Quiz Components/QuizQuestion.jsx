@@ -1,7 +1,7 @@
 import React from "react";
 import { QuizContext } from "./QuizContextProvider";
 
-const TIMER = 5000;
+const TIMER = 1000;
 
 
 function QuizQuestion(){

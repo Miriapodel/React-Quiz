@@ -35,9 +35,11 @@ function getWinnerIndex(answer, winner){
 }
 
 export const QuizContext = React.createContext({
-    currentQuestions: {},
+    currentQuestion: {},
     setTimerFinished: () => {},
-    dispatchAnswers : () => {}
+    dispatchAnswers : () => {},
+    answers: [],
+    currentQuestions: []
 });
 
 
@@ -55,8 +57,6 @@ function QuizContextProvider({appState, setAppState}){
     const [timerFinished, setTimerFinished] = React.useState(false);
     const [currentQuestions, setCurrentQuestions] = React.useState(0);
     const [answers, dispatchAnswers] = React.useReducer(handleAnswersDispatch, []);
-    
-    console.log(answers);
 
     React.useEffect(()=>{ // efect care se declanseaza daca timerFinished se schimba
                           // anunta practic ca o intrebare s-a terminat si vedem ce se intampla mai departe
@@ -65,7 +65,7 @@ function QuizContextProvider({appState, setAppState}){
             setQuestionIndex(previousIndex => previousIndex + 1);
         }
         else if(questionIndex >= 2 && timerFinished === true){ // nu mai sunt intrebari si trecem la
-            setAppState("showResult");                         // ecranul cu performantele utilizatorului
+            setAppState("showResults");                         // ecranul cu performantele utilizatorului
         }
 
     }, [timerFinished])
@@ -96,7 +96,9 @@ function QuizContextProvider({appState, setAppState}){
     const propForContext = {
         currentQuestion : currentQuestions[questionIndex],
         setTimerFinished: setTimerFinished,
-        dispatchAnswers : dispatchAnswers
+        dispatchAnswers : dispatchAnswers,
+        answers : answers,
+        currentQuestions: currentQuestions
     }
 
     return(
