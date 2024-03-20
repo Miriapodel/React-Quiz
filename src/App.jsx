@@ -81,7 +81,7 @@ function App() {
         
         if(appState === "quizRunning" && questionIndex  === 0){
             const randomQuestions = getRandomQuestions();
-            console.log(answers);
+
             for(let i = 0; i < randomQuestions.length; i++){
                 const winner = randomQuestions[i].answers[0];
                 const shuffledAnswers = shuffle(randomQuestions[i].answers);

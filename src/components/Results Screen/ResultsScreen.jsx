@@ -22,15 +22,10 @@ function getNumSkiped(answers){
 
 function getNumAnsCor(correctAnsInd, userAnsInd){
     let num = 0;
-    console.log("Usr: ", userAnsInd);
-    console.log("Cor: ", correctAnsInd)
 
     for(let i = 0; i < correctAnsInd.length; i++)
         if(correctAnsInd[i] === userAnsInd[i])
             num += 1;
-
-
-    console.log("Num: ",num);
     
     return num
 }

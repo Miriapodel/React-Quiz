@@ -16,8 +16,6 @@ function QuizQuestion(){
   React.useEffect( () => {           // intervalul pentru update-ul progresului
     let interval;
     let timeOut;
-    
-    console.log("àaaaaa");
 
     if(context.currentQuestion){
       intervalRef.current = setInterval(() => {
@@ -77,7 +75,6 @@ function QuizQuestion(){
     clearTimeout(timeoutRef.current);
     context.setTimerFinished(true);
     context.dispatchAnswers({type:"append", payload:-1});
-    console.log(context.currentQuestion);
   }
   
   function createButtonsFromsAnswer(answer, index){
